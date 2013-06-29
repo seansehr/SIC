@@ -1,0 +1,55 @@
+<html>
+  <head>
+    <script type="text/javascript">
+      function connect(){  
+                var socket;  
+                var host = "ws://localhost:3000";  
+
+                try{  
+                    var socket = new WebSocket(host);  
+
+                    console.log('<p class="event">Socket Status: '+socket.readyState);  
+                    console.log('before open');
+                    socket.onopen = function(){  
+                       console.log('<p class="event">Socket Status: '+socket.readyState+' (open)');  
+                    }  
+                    console.log('before log');
+                    //socket.onconsole.log = function(msg){  
+                      // console.log('<p class="console.log">Received: '+msg.data);  
+                    //}  
+                    console.log('before onclose');
+                    socket.onclose = function(){  
+                      console.log('<p class="event">Socket Status: '+socket.readyState+' (Closed)');  
+                    }           
+
+                } catch(exception){  
+                   console.log('<p>Error: '+exception);  
+                }  
+
+                function send(){  
+                    var text = 'test';  
+
+                    if(text==""){  
+                        console.log('<p class="warning">Please enter a console.log');  
+                        return ;  
+                    }  
+                    try{  
+                        socket.send(text);  
+                        console.log('<p class="event">Sent: '+text)  
+
+                    } catch(exception){  
+                       console.log('<p class="warning">');  
+                    }  
+                }  
+
+            }//End connect
+    
+    </script>
+  </head>
+<body>
+  <script type="text/javascript">
+    connect();
+  </script>
+
+</body>
+</html>

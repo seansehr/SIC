@@ -6,7 +6,8 @@
 var io = require('socket.io'),
     connect = require('connect'),
     mongoose = require('mongoose'),
-    db = require('./database');
+    db = require('./database'),
+    express = require('express');
 
 var app = connect().use(connect.static('public')).listen(3000);
 var canvas = io.listen(app);
@@ -14,7 +15,7 @@ var canvas = io.listen(app);
 var Find = {
   'z': [1, 2, 3],
   'start': 0,
-  'stop': new Date().getTime()
+  'stop': 9999999999999
 };
 
 Object.spawn = function (parent, props) {
@@ -51,7 +52,26 @@ canvas.sockets.on('connection', function (socket) {
   });
 
   db.findByInbetween(Find, function(results) {
-    socket.emit('entrance', {message: JSON.stringify(results)});
+    for(var i in results) {
+      socket.emit('entrance', {message: JSON.stringify(results[i])});
+    }
   });
 
 });
+
+var restAPI = express();
+
+restAPI.get('/paints', function(req, res) {
+  db.findByInbetween(Find, function(results) {
+    res.send(results);
+  });
+});
+restAPI.get('/canvas/:z', function(req, res) {
+  Find.z = [req.params.z];
+  db.findByInbetween(Find, function(results) {
+    res.send(results);
+  });
+});
+ 
+restAPI.listen(3001);
+console.log('Listening on port 3001...');

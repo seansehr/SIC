@@ -8,6 +8,7 @@ var PaintSchema = new mongoose.Schema({
   z: Number,
   h: Number,
   w: Number,
+  color: String,
   time: Number,
 });
 
@@ -33,6 +34,7 @@ exports.newPaint = function(req) {
 exports.findByInbetween = function(data, callback) {
   Paint
   .find({'time': {'$gte': data.start, '$lte': data.stop}, 'z': {'$in': data.z}})
+  //.find({})
   .sort({timestamp: -1}).execFind(function (err, paints) {
     if (err) console.log(err);
     callback(paints);

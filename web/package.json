@@ -8,6 +8,7 @@
   "dependencies": {
     "connect": "*",
     "socket.io": "*",
-    "mongoose": "*"
+    "mongoose": "*",
+    "express": "3.x"
   }
 }

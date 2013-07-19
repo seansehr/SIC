@@ -1,14 +1,15 @@
 {
-  "name": "application-name",
+  "name": "sic-server",
   "version": "0.0.1",
   "private": true,
   "scripts": {
     "start": "node app.js"
   },
   "dependencies": {
-    "connect": "*",
-    "socket.io": "*",
-    "mongoose": "*",
-    "express": "3.x"
+    "connect": "2.7.10",
+    "express": "3.3.4",
+    "mongoose": "3.6.11",
+    "node-twitter": "0.5.0",
+    "socket.io": "0.9.14"
   }
 }

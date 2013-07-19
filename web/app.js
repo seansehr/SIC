@@ -5,9 +5,10 @@
 
 var io = require('socket.io'),
     connect = require('connect'),
+    express = require('express'),
     mongoose = require('mongoose'),
     db = require('./database'),
-    express = require('express');
+    twitter = require('./twitter');
 
 var app = connect().use(connect.static('public')).listen(3000);
 var canvas = io.listen(app);
@@ -72,6 +73,11 @@ restAPI.get('/canvas/:z', function(req, res) {
     res.send(results);
   });
 });
+restAPI.get('/twitter/:term', function(req, res) {
+  term = [req.params.term];
+  twitter.searchTwitter(term);
+});
+
  
 restAPI.listen(3001);
 console.log('Listening on port 3001...');

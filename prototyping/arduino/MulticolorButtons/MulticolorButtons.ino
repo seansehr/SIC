@@ -1,149 +1,68 @@
-/*
-Setup 
-red in from button = pin 13;
-green in from button = pin 12;
-blue in from button = pin 11;
+int redReadPin = 3;
+int greenReadPin = 4;
+int blueReadPin = 5;
 
-red out from pin 6;
-green led pin 5
-blue led from pin 4
-
-
-
-*/
-
-int redPin = 13;
-int redPinValueCurrent;
 int redValue;
-boolean isRedOn = false;
-int redLED = 6;
-
-
-int greenPin = 12;
-int greenPinValueCurrent;
 int greenValue;
-boolean isGreenOn = false;
-int greenLED = 5;
-
-int bluePin = 11;
-int bluePinValueCurrent;
 int blueValue;
-boolean isBlueOn = false;
-int blueLED = 4;
+
+int value;
+String valueS;
+
 
 void setup()
 {
-  Serial.begin( 9600 );
-  Serial.println( "setup" );
-  
-  pinMode( redPin , INPUT );
-  pinMode( redLED , OUTPUT );
-  redValue = digitalRead( redPin );
-  
-  pinMode( greenPin , INPUT );
-  pinMode( greenLED , OUTPUT );
-  greenValue = digitalRead( greenPin );
-  
-  pinMode( bluePin , INPUT );
-  pinMode( blueLED , OUTPUT );
-  blueValue = digitalRead( bluePin );
-  
-  Serial.println( "READY" );
-  
+  Serial.begin( 115200 );
+  pinMode( redReadPin , INPUT );
+  pinMode( greenReadPin , INPUT );
+  pinMode( blueReadPin , INPUT );
 }
-
 
 void loop()
 {
-  getRed();
-  getGreen();
-  getBlue();
+  redValue = digitalRead( redReadPin );
+  greenValue = digitalRead( greenReadPin );
+  blueValue = digitalRead( blueReadPin );
   
+  checkValues();
+  
+  Serial.println( valueS );
   delay( 50 );
 }
 
 
-void getRed()
+void checkValues()
 {
- redPinValueCurrent = digitalRead( redPin );
-  Serial.print( "redPinValueCurrent = " );
-  Serial.println( redPinValueCurrent );
-    digitalWrite( redLED , !redPinValueCurrent );
-    
-    /*
-  if( redPinValueCurrent == HIGH )
+  if( redValue == 0 && greenValue == 0 && blueValue == 0 )
   {
-    //digitalWrite( redLED , LOW );
-    if( redPinValueCurrent != redValue )
-    {
-      isRedOn = !isRedOn;
-    }
-  } else
+    valueS = "off";
+  } 
+  else if ( redValue == 1 && greenValue == 0 && blueValue == 0 )
   {
-    //digitalWrite( redLED , HIGH );
+    valueS = "red";
+  } 
+  else if ( redValue == 1 && greenValue == 1 && blueValue == 0 )
+  {
+    valueS = "yellow";
   }
-  redValue = redPinValueCurrent;
-  
-  Serial.print( "isRedOn: " );
-  Serial.println( isRedOn ); 
-  digitalWrite( redLED , !isRedOn );
-  */
-}
-
-
-
-void getGreen()
-{
-  greenPinValueCurrent = digitalRead( greenPin );
-  Serial.print( "GreenPinValueCurrent = " );
-  Serial.println( greenPinValueCurrent );
-    digitalWrite( greenLED , !greenPinValueCurrent );
-    
-    /*
-  if( greenPinValueCurrent == HIGH )
+  else if ( redValue == 0 && greenValue == 1 && blueValue == 0 )
   {
-    //digitalWrite( greenLED , LOW );
-    if( greenPinValueCurrent != greenValue )
-    {
-      isGreenOn = !isGreenOn;
-    }
-  } else 
+    valueS = "green";
+  } 
+  else if ( redValue == 0 && greenValue == 1 && blueValue == 1 )
   {
-    //digitalWrite( greenLED , HIGH );
-  }
-  greenValue = greenPinValueCurrent;
-  
-  Serial.print( "isGreenOn: " );
-  Serial.println( isGreenOn ); 
-  
-   digitalWrite( greenLED , !isGreenOn );
-  */
-}
-
-void getBlue()
-{
-  bluePinValueCurrent = digitalRead( bluePin );
-  Serial.print( "BluePinValueCurrent = " );
-  Serial.println( bluePinValueCurrent );
-  digitalWrite( blueLED , !bluePinValueCurrent );
-  /*  
-  if( bluePinValueCurrent == HIGH )
+    valueS = "cyan";
+  } 
+  else if ( redValue == 0 && greenValue == 0 && blueValue == 1 )
   {
-    
-    //digitalWrite( blueLED , LOW );
-    if( bluePinValueCurrent != blueValue )
-    {
-      isBlueOn = !isBlueOn;
-    }
-  } else 
+    valueS = "blue";
+  } 
+  else if ( redValue == 1 && greenValue == 0 && blueValue == 1 )
   {
-    //digitalWrite( blueLED , HIGH );
-  }
-  blueValue = bluePinValueCurrent;
-  
-  Serial.print( "isBlueOn: " );
-  Serial.println( isBlueOn ); 
-  
-  digitalWrite( blueLED , !isBlueOn );
-  */
+    valueS = "violet";
+  } 
+  else if ( redValue == 1 && greenValue == 1 && blueValue == 1 )
+  {
+    valueS = "on";
+  } 
 }

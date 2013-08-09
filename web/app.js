@@ -8,6 +8,7 @@ var io = require('socket.io'),
     express = require('express'),
     mongoose = require('mongoose'),
     db = require('./database'),
+    fs = require('fs'),
     twitter = require('./twitter');
 
 var app = connect().use(connect.static('public')).listen(3000);
@@ -57,6 +58,7 @@ canvas.sockets.on('connection', function (socket) {
       socket.emit('entrance', {message: JSON.stringify(results[i])});
     }
   });
+  console.log('test');
 
 });
 
@@ -73,9 +75,16 @@ restAPI.get('/canvas/:z', function(req, res) {
     res.send(results);
   });
 });
-restAPI.get('/twitter/:term', function(req, res) {
-  term = [req.params.term];
-  twitter.searchTwitter(term);
+restAPI.get('/twitter/:search', function(req, res) {
+  search = '{"q=' + req.params.search + '"}';
+  search = search.replace(/&/g, "\",\"").replace(/=/g,"\":\"");
+  search = decodeURI(search);
+  console.log(search);
+  search = JSON.parse(search);
+  console.log(search);
+  //twitter.searchTwitter(term, function(results) {
+    //res.send(results);
+  //});
 });
 
  

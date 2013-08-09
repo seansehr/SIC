@@ -1,9 +1,8 @@
 <html>
 <head>
 <script src="/socket.io/socket.io.js"></script>
-<script src="/socket.io/angular.min.js"></script>
 <script type="text/javascript" charset="utf-8">
-	var socket = io.connect('http://10.102.52.163:3000');
+	var socket = io.connect('http://localhost:3000');
 
 	socket.on('entrance', function  (data) {
 		document.write('<p>' + data.message + '</p>');

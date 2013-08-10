@@ -6,7 +6,7 @@
 // Connect to server
 var io = require('socket.io-client'),
     server = 'http://localhost:3000',
-    socket = io.connect('http://localhost:3000', {reconnect: true}),
+    socket = io.connect(server, {reconnect: true}),
     fs = require('fs'),
     watchr = require('watchr'),
     file = './data.txt',

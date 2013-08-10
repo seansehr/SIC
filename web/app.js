@@ -68,22 +68,20 @@ restAPI.get('/canvas/:z', function (req, res) {
   });
 });
 
-restAPI.get('/twitter/search/:search', function (req, res) {
-  twitter.formatString(req.params.search, twitter.searchTwitter, function (results) {
+/**
+ * use twitter path and pass search parameters as url parameters
+ * https://dev.twitter.com/docs/api/1.1
+ *
+ * examples
+ * twitter/statuses/mentions_timeline
+ * twitter/statuses/mentions_timeline?count=10
+ * twitter/search/tweets?q=john%20smith&lang=en&result_type=recent&count=100
+ */
+restAPI.get('/twitter/*', function (req, res) {
+  twitter.twitter(req.route.params[0], req.query, function (results) {
     res.json(results);
   });
 });
-restAPI.get('/twitter/timeline-mentions', function (req, res) {
-  twitter.mentionsTimeline('', function (results) {
-    res.json(results);
-  });
-});
-restAPI.get('/twitter/timeline-mentions/:parameters', function (req, res) {
-  twitter.formatString(req.params.parameters, twitter.mentionsTimeline, function (results) {
-    res.json(results);
-  });
-});
-
  
 restAPI.listen(3001);
 console.log('restAPI server running on port 3001');
